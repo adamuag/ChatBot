@@ -79,7 +79,7 @@ def generate_indexes(index_name="course-questions"):
         print("Indices generated already")
 
 
-def retrieve_documents(query, index_name="course-questions", top_n=5):
+def retrieve_documents(query, cohort, index_name="course-questions", top_n=5):
     es = Elasticsearch(ES_HOST)
 
     search_query = {
@@ -95,7 +95,7 @@ def retrieve_documents(query, index_name="course-questions", top_n=5):
                 },
                 "filter": {
                     "term": {
-                        "course": "data-engineering-zoomcamp"
+                        "course": cohort
                     }
                 }
             }
@@ -106,3 +106,16 @@ def retrieve_documents(query, index_name="course-questions", top_n=5):
     documents = [hit['_source'] for hit in response['hits']['hits']]
 
     return documents
+
+
+def get_cohort(filename='document.json'):
+    with open(filename, 'rt') as f_in:
+        documents_file = json.load(f_in)
+
+    m_dict = []
+    for course in documents_file:
+        course_name = course['course']
+        if course_name not in m_dict:
+            m_dict.append(course_name)
+
+    return m_dict

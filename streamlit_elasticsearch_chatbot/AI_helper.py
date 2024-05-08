@@ -41,8 +41,8 @@ def ask_openai(prompt):
     return answer
 
 
-def qa_bot(user_question):
-    context_docs = retrieve_documents(query=user_question)
+def qa_bot(user_question, cohort):
+    context_docs = retrieve_documents(query=user_question, cohort=cohort)
     prompt = build_prompt(user_question, context_docs)
     answer = ask_openai(prompt)
     return answer

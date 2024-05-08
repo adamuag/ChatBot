@@ -1,5 +1,8 @@
 from openai import OpenAI
 from ES_helper import retrieve_documents
+import os
+
+OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 
 
 def build_context(documents):
@@ -8,7 +11,7 @@ def build_context(documents):
     for doc in documents:
         doc_str = f"Section: {doc['section']}\nQuestion: {doc['question']}\nAnswer: {doc['text']}\n\n"
         context += doc_str
-    
+
     context = context.strip()
     return context
 
@@ -27,8 +30,8 @@ def build_prompt(user_question, documents):
                 {context}
                 """.strip()
 
-def ask_openai(prompt):
 
+def ask_openai(prompt):
     client = OpenAI()
     response = client.chat.completions.create(
         model=OPENAI_MODEL,
@@ -37,9 +40,9 @@ def ask_openai(prompt):
     answer = response.choices[0].message.content
     return answer
 
+
 def qa_bot(user_question):
     context_docs = retrieve_documents(query=user_question)
     prompt = build_prompt(user_question, context_docs)
     answer = ask_openai(prompt)
     return answer
-

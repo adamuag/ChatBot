@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 streamlit = "*"
+tqdm = "*"
+notebook = "*"
+openai = "*"
+elasticsearch = "*"
 
 [dev-packages]
 

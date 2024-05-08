@@ -1,8 +1,8 @@
 import json
 import requests
 from elasticsearch import Elasticsearch
-import tqdm.auto import tqdm
-
+from tqdm.auto import tqdm
+import os 
 
 
 def download_data_json():
@@ -10,7 +10,9 @@ def download_data_json():
     filename = DATA_URL.split("/")[-1]
 
     if os.path.exists(filename):
-        print(f"{filename}" already exists!)
+        
+        print(f"{filename} already exists!")
+              
     else:
         response = requests.get(DATA_URL)
         if response.status_code == 200:
@@ -66,7 +68,7 @@ def generate_indexes(index_name="course-questions"):
     response = es.indices.create(index=index_name, body=index_settings)
 
     for doc in tqdm(documents):
-    es.index(index=index_name, document=doc)
+        es.index(index=index_name, document=doc)
 
     return es
 

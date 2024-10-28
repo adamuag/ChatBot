@@ -42,11 +42,11 @@ jobs:
     - name: Generate the comparison report
       if: steps.get-runid-value.outputs.VAL_FOUND == 'true'
       id: wandb-report
-      run: python generate_baseline_pr_report.py
+      run: python ./client/generate_baseline_pr_report.py
       env:
         RUN_ID: "${{ steps.get-runid-value.outputs.RUN_ID }}"
         WANDB_API_KEYS: ${{ secrets.WANDB_API_KEYS }}
-        WANDB_PROJECT: 'cicd-quickstart'
+        WANDB_PROJECT: 'chatbot'
         WANDB_ENTITY: 'aagombe7-tagtechnologies'
         BASELINE_TAG: baseline
         
